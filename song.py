@@ -15,6 +15,10 @@ class Song:
         return self.score
     def setScore(self, newscore):
         self.score = newscore
+    def incrementScore(self):
+        self.score = self.score + 1
+    def decrementScore(self):
+        self.score = self.score - 1
 
 class SongList:
 
@@ -30,8 +34,9 @@ class SongList:
     def add(self, song):
         self.list.append(song)
 
+    #sort list with highest score at the top
     def sortList(self):
         self.list.sort(self.compare_songs)
 
     def compare_songs(self, song1, song2):
-        return song1.getScore() - song2.getScore()
+        return song2.getScore() - song1.getScore()

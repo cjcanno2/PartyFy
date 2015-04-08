@@ -10,15 +10,39 @@ songList = SongList()
 
 @app.route('/')
 def my_form():
-    return render_template("index.html", songqueue = songList.getList())
+    return render_template("index.html", songlist = songList.getList())
 
-#Takes input from form and adds it to the queue
+
+#Takes input from form and adds it to the list
 @app.route('/', methods=['POST'])
+
 def my_form_post():
-    text = request.form['text']
-    songList.add(Song(text))
-    songList.sortList()
-    return render_template("index.html", songlist= songList.getList())
+
+	if request.form['my-form'] == 'add':
+		text = request.form['songinput']
+		songList.add(Song(text))
+		songList.sortList()
+	else:
+		slist = songList.getList()
+		for song in slist:
+			if request.form['my-form'] == song.getTitle():
+				song.incrementScore()
+				songList.sortList()
+				break
+
+	return render_template("index.html", songlist = songList.getList())
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
