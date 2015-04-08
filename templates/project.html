@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>{{ project.title }}</title>
+    <link rel="stylesheet" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script>
+    jQuery(function(){
+        $("iframe").each(function(){
+            this.tmp = this.src;
+            this.src = "";
+        })
+        .parent(".popup_block")
+        .click(function(){
+            var frame = $(this).children("iframe")[0];
+            console.log(frame);        frame.src = frame.tmp;
+        });
+    });
+    </script>
+
+  </head>
+  <body>
+    <div class="projectinfo">     
+    	  <h1>{{ project.title }}</h1>
+        <h4>  </h4>
+        <h2>Date: {{ project.date }}</h2>
+        <h2>Version: {{ project.version }}</h2>
+        <h2>Summary: {{ project.summary }}</h2>
+	  </div>
+
+    <div class="filelist">     
+        <h1>List of files</h1>
+        {% for file in project.files %}
+
+        <div class="file">    
+          <h2>  {{ file.path }}</h2>
+          <h3>  Type: {{ file.type }}</h3>
+          <h3>  Size: {{ file.size }}</h3>
+          <iframe id={{ file.path }} frameborder="0" scrolling="no" width="0" height="0"></iframe>
+          <button onclick='document.getElementById("{{ file.path }}").src="{{svnpath ~ "/" ~ file.path}}";
+                            document.getElementById("{{ file.path }}").width="80%";
+                            document.getElementById("{{ file.path }}").height="200";'>Reveal File</button>
+
+          {% for version in file.versions %}
+          <div class="versions"> 
+              <h3>    Version: {{ version.number }}</h3>
+              <h4>    Author: {{ version.author }}</h3>
+              <h4>    Date: {{ version.date }}</h3>
+              <h4>    Info: {{ version.info }}</h3>
+          </div>
+          {% endfor %}
+
+        </div>
+
+        {% endfor %}
+    </div>
+
+  </body>
+</html>
