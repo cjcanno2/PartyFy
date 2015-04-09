@@ -6,23 +6,28 @@
   </head>
   <body>
       <div class= "header">
+          <p></p>
+          <p></p>
+
           <h1>Enter a song!</h1>
+          <p></p>
           <form action="." method="POST">
               <input type="text" name="songinput">
-              <input type="submit" name="my-form" value="add">
+              <input class="addsongbutton" type="submit" name="my-form" value="Add Song">
           </form>
+          <p></p>
       </div>
 
       <div class="songlist">
           {% for song in songlist %}
-          <div class="entry" href={{ song.title }} >     
               <form action="." method="POST">
-                  <input type="submit" name="my-form" value={{ song.title }}>
+                  <button type="submit" name="my-form" value={{ song.id }}> {{ song.title }} {{ song.score }}</button>
               </form>
-              {{ song.score }}
-          </div>
           {% endfor %}
+
       </div>
 
   </body>
 </html>
+
+

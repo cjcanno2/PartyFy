@@ -8,24 +8,32 @@ app = Flask(__name__)
 
 songList = SongList()
 
+#temporary solution to create unique IDs
+currentid = 0
+
+#initial template rendering
 @app.route('/')
 def my_form():
     return render_template("index.html", songlist = songList.getList())
 
 
-#Takes input from form and adds it to the list
+#Takes input from template and adds it to the list
 @app.route('/', methods=['POST'])
-
 def my_form_post():
 
-	if request.form['my-form'] == 'add':
+	if request.form['my-form'] == 'Add Song':
 		text = request.form['songinput']
-		songList.add(Song(text))
+		global currentid 
+		currentid = currentid + 1
+		songList.add(Song(text, currentid))
 		songList.sortList()
 	else:
 		slist = songList.getList()
 		for song in slist:
-			if request.form['my-form'] == song.getTitle():
+			print "id is  ", song.getId()
+			print "form s ", request.form['my-form']
+			if int(request.form['my-form']) == song.getId():
+				print "incrementing score!"
 				song.incrementScore()
 				songList.sortList()
 				break

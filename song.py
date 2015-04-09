@@ -2,14 +2,20 @@
 
 class Song: 
 
-    def __init__(self, title):
+    def __init__(self, title, idnum):
     	self.title = title
     	self.score = 1
+        self.id = idnum
 
     def getTitle(self):
     	return self.title
     def setTitle(self, newtitle):
     	self.title = newtitle
+
+    def getId(self):
+        return self.id
+    def setId(self, newid):
+        self.id = newid
 
     def getScore(self):
         return self.score
