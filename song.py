@@ -34,7 +34,7 @@ class SongList:
     def getList(self):
         return self.list
 
-    def getListAt(self, index):
+    def getSongAt(self, index):
         return self.list[index]
 
     def add(self, song):
@@ -46,3 +46,11 @@ class SongList:
 
     def compare_songs(self, song1, song2):
         return song2.getScore() - song1.getScore()
+
+
+
+
+
+
+
+

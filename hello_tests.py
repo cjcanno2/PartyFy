@@ -1,9 +1,6 @@
 import os
 import hello
-from project import Project
-from projectfile import ProjectFile
-from projectfileversion import ProjectFileVersion
-from parsexml import ParseXML
+from song import Song, SongList
 
 
 import unittest
@@ -21,42 +18,64 @@ class HelloTestCase(unittest.TestCase):
         #os.close(self.db_fd)
         #os.unlink(hello.app.config['DATABASE'])
 
-	def test_parse_project(self):
-		print "testing if projects are parsed correctly..."
+	def test_create_song(self):
+		print "testing if songs are created correctly"
+		song = Song("TestSong", 1)
+		assert 'TestSong' in song.getTitle()
+		assert 1 == song.getId()
 
-		pxml = ParseXML()
-		projects = pxml.parseXML('svn_list_test.xml', 'svn_log_test.xml')
-		project = projects.values()[0]
-		assert 'A' in project.title
-		assert '2015-02-26T04:53:56.159823Z' in project.date
-		assert '1' in project.version
-		assert 'Adding A and B' in project.summary
+	def test_song_score(self):
+		print "testing if song score is modified correctly"
+		song = Song("TestSong", 1)
+		assert 'TestSong' in song.getTitle()
+		assert 1 == song.getScore()
+		song.incrementScore()
+		assert 2 == song.getScore()
+		song.decrementScore()
+		assert 1 == song.getScore()
 
-	def test_parse_projectfile(self):
-		print "testing if files are parsed correctly"
+	def test_create_songlist(self):
+		print "testing if songlist is created correctly and can add/retrieve songs"
+		songList = SongList()
+		song = Song("TestSong", 1)
+		songList.add(song)
+		songtest = songList.getSongAt(0)
+		assert 'TestSong' in songtest.getTitle()
+		assert 1 == songtest.getId()
 
-		pxml = ParseXML()
-		projects = pxml.parseXML('svn_list_test.xml', 'svn_log_test.xml')
-		projectfile = projects.values()[0].getFiles()[0]
-		assert 'A/B' in projectfile.path
-		assert 'dir' in projectfile.type
-		assert 0 == projectfile.size
+	def test_sort_songlist(self):
+		print "testing if songlist sorts songs properly"
+		songList = SongList()
+		song1 = Song("TestSong1", 1)
+		song2 = Song("TestSong2", 2)
+		song2.incrementScore() 			#song2 should end up in index 0 after sort
+		songList.add(song1)
+		songList.add(song2)
+		songList.sortList()
+		songtest = songList.getSongAt(0)
+		assert 'TestSong2' in songtest.getTitle()
+		assert 2 == songtest.getId()
 
-	def test_parse_projectfileversion(self):
-		print "testing if versions are parsed correctly"
 
-		pxml = ParseXML()
-		projects = pxml.parseXML('svn_list_test.xml', 'svn_log_test.xml')
-		projectfile = projects.values()[0].getFiles()[0]
-		version = projectfile.versions[1]
-		assert "1" == version.number
-		assert 'ejricht2' in version.author
-		assert "2015-01-13T04:46:09.926345Z" == version.date
-		assert 'Adding A and B' in version.info
-
-	#def test_parse(self):
-    #    rv = self.app.get('/')
-    #    assert 'No entries here so far' in rv.data
 
 if __name__ == '__main__':
 	unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

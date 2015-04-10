@@ -30,10 +30,10 @@ def my_form_post():
 	else:
 		slist = songList.getList()
 		for song in slist:
-			print "id is  ", song.getId()
-			print "form s ", request.form['my-form']
+			#print "id is  ", song.getId()
+			#print "form s ", request.form['my-form']
 			if int(request.form['my-form']) == song.getId():
-				print "incrementing score!"
+				#print "incrementing score!"
 				song.incrementScore()
 				songList.sortList()
 				break
