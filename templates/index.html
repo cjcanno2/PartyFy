@@ -18,6 +18,19 @@
           <p></p>
       </div>
 
+      <div class = "search">
+        {% for result in searchlist %}
+        <div class = "resultlist" href={{ result["name"] }} >
+          <p>
+            <form action = "{{url_for('enqueue')}}" method = "POST">
+              <input type ="submit" value = "{{(searchlist.index(result) + 1) ~ ": " ~ result["name"] ~ " - " ~ result["artists"][0]["name"] }}" name = "add-song">
+            </form>
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+
+
       <div class="songlist">
           {% for song in songlist %}
               <form action="." method="POST">
