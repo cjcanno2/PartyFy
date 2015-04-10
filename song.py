@@ -2,9 +2,11 @@
 
 class Song: 
 
-    def __init__(self, title):
+    def __init__(self, title, artist, uri):
     	self.title = title
     	self.score = 1
+        self.artist = artist
+        self.uri = uri
 
     def getTitle(self):
     	return self.title
