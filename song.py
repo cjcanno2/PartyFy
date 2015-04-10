@@ -2,21 +2,31 @@
 
 class Song: 
 
-    def __init__(self, title, artist, uri):
+    def __init__(self, title, artist, uri, idnum):
     	self.title = title
     	self.score = 1
         self.artist = artist
         self.uri = uri
+        self.id = idnum
 
     def getTitle(self):
     	return self.title
     def setTitle(self, newtitle):
     	self.title = newtitle
 
+    def getId(self):
+        return self.id
+    def setId(self, newid):
+        self.id = newid
+
     def getScore(self):
         return self.score
     def setScore(self, newscore):
         self.score = newscore
+    def incrementScore(self):
+        self.score = self.score + 1
+    def decrementScore(self):
+        self.score = self.score - 1
 
 class SongList:
 
@@ -26,14 +36,23 @@ class SongList:
     def getList(self):
         return self.list
 
-    def getListAt(self, index):
+    def getSongAt(self, index):
         return self.list[index]
 
     def add(self, song):
         self.list.append(song)
 
+    #sort list with highest score at the top
     def sortList(self):
         self.list.sort(self.compare_songs)
 
     def compare_songs(self, song1, song2):
-        return song1.getScore() - song2.getScore()
+        return song2.getScore() - song1.getScore()
+
+
+
+
+
+
+
+

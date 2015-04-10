@@ -11,29 +11,62 @@ app = Flask(__name__)
 
 songList = SongList()
 
-results = []
+trackResults = []
+
+#temporary solution to create unique IDs
+currentid = 0
 
 @app.route('/')
 def my_form():
     return render_template("index.html", songlist = songList.getList())
 
-#Takes input from form and adds it to the queue
+#Takes input from template and adds it to the list
 @app.route('/', methods=['POST'])
 def my_form_post():
-    text = request.form['text']
-    results = spotify.search(text, limit = 10, offset = 0, type = 'track')
-    #songList.add(Song(text))
-    #songList.sortList()
-    return render_template("index.html", songlist= songList.getList(), searchlist = results['tracks']['items'])
+
+	searchlist = []
+	if request.form['my-form'] == 'Add Song':
+		text = request.form['songinput']
+		results = spotify.search(text, limit = 10, offset = 0, type = 'track')
+		searchlist = results['tracks']['items']
+		global trackResults
+		trackResults = searchlist
+	else:
+		slist = songList.getList()
+		for song in slist:
+			#print "id is  ", song.getId()
+			#print "form s ", request.form['my-form']
+			if int(request.form['my-form']) == song.getId():
+				#print "incrementing score!"
+				song.incrementScore()
+				songList.sortList()
+				break
+
+	return render_template("index.html", songlist = songList.getList(), searchlist = searchlist)
+
 
 @app.route('/enqueue', methods = ['POST'])
 def enqueue():
+	global currentid 
+	currentid = currentid + 1
 	songName = request.form['add-song']
 	index = songName.find(": ")
-	songName = songName[:index]
-	songList.add(Song(songName))
+	index = songName[:index]
+	currSong = trackResults[int(index)-1]
+	songList.add(Song(currSong['name'], currSong['artists'][0]['name'], currentid, currSong['uri']))
 	songList.sortList()
 	return render_template("index.html", songlist = songList.getList())
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+

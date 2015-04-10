@@ -6,11 +6,16 @@
   </head>
   <body>
       <div class= "header">
+          <p></p>
+          <p></p>
+
           <h1>Enter a song!</h1>
+          <p></p>
           <form action="." method="POST">
-              <input type="text" name="text">
-              <input type="submit" name="my-form" value="Add">
+              <input type="text" name="songinput">
+              <input class="addsongbutton" type="submit" name="my-form" value="Add Song">
           </form>
+          <p></p>
       </div>
 
       <div class = "search">
@@ -25,13 +30,17 @@
         {% endfor %}
       </div>
 
-      <div class="queue">
+
+      <div class="songlist">
           {% for song in songlist %}
-          <div class="entry" href={{ song.title }} >     
-              <p class="songentry">{{song.title}}<input type="button" value={{song.score}}></p>
-          </div>
+              <form action="." method="POST">
+                  <button type="submit" name="my-form" value={{ song.id }}> {{ song.title }} {{ song.score }}</button>
+              </form>
           {% endfor %}
+
       </div>
 
   </body>
 </html>
+
+
