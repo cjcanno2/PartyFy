@@ -2,7 +2,7 @@
 
 class Song: 
 
-    def __init__(self, title, artist, uri, idnum):
+    def __init__(self, idnum, title, artist, uri):
     	self.title = title
     	self.score = 1
         self.artist = artist

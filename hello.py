@@ -53,7 +53,7 @@ def enqueue():
 	index = songName.find(": ")
 	index = songName[:index]
 	currSong = trackResults[int(index)-1]
-	songList.add(Song(currSong['name'], currSong['artists'][0]['name'], currentid, currSong['uri']))
+	songList.add(Song(currentid, currSong['name'], currSong['artists'][0]['name'], currSong['uri']))
 	songList.sortList()
 	return render_template("index.html", songlist = songList.getList())
 
