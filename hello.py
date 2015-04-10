@@ -27,7 +27,7 @@ def my_form_post():
 	searchlist = []
 	if request.form['my-form'] == 'Add Song':
 		text = request.form['songinput']
-		results = spotify.search(text, limit = 10, offset = 0, type = 'track')
+		results = spotify.search(text, limit = 5, offset = 0, type = 'track')
 		searchlist = results['tracks']['items']
 		global trackResults
 		trackResults = searchlist
@@ -53,7 +53,7 @@ def enqueue():
 	index = songName.find(": ")
 	index = songName[:index]
 	currSong = trackResults[int(index)-1]
-	songList.add(Song(currSong['name'], currSong['artists'][0]['name'], currentid, currSong['uri']))
+	songList.add(Song(currentid, currSong['name'], currSong['artists'][0]['name'], currSong['uri']))
 	songList.sortList()
 	return render_template("index.html", songlist = songList.getList())
 
