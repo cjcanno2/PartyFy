@@ -28,6 +28,18 @@ class Song:
     def decrementScore(self):
         self.score = self.score - 1
 
+    def toJSON(self):
+        song_json  = "{ \"idnum\":\"" + str(self.id) 
+        song_json += "\", \"songname\":\"" + self.title 
+        song_json += "\", \"artistname\":\"" + self.artist 
+        song_json += "\", \"uri\":\"" + self.uri 
+        song_json += "\", \"score\":\"" + str(self.score) + "\"}"
+
+        return song_json
+
+
+
+
 class SongList:
 
     def __init__(self):
@@ -49,8 +61,15 @@ class SongList:
     def compare_songs(self, song1, song2):
         return song2.getScore() - song1.getScore()
 
-
-
+    #return JSON list of all the entries
+    def toJSON(self):
+        list_json = "["
+        if (self.getList()):
+            for song in self.list:
+                list_json += song.toJSON() + ","
+            list_json = list_json[:-1]
+        list_json += "]"
+        return list_json
 
 
 

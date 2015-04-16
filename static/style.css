@@ -6,7 +6,7 @@
 
 body { 
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-   	background: #121314;   
+   	background: #1976D2;   
 	width: 100%;
   	text-align: center;
 }
@@ -54,32 +54,30 @@ h2 {
 
 
 
-button  {
+button.songbutton{
 	color: #fff;
 	font-size: 20px;
 	border:0 none;
 	cursor:pointer;
-	-webkit-border-radius: 5px;
-	border-radius: 5px; 
-	margin: 5px;
+	margin: 2px;
 	margin-left: auto;
     margin-right: auto;
     width: 80%;
 	height: 60px; 
     padding: 0.8em; 
-    background: #79ad02;
+    background: #03A9F4;
     z-index: 0;
  
 
 }
 
+/*buttons that appear when you search for a song*/
 input[type=submit].searchresultbutton {
 	color: #000;
 	font-size: 16px;
 	border:0 none;
+	margin: 2px;
 	cursor:pointer;
-	-webkit-border-radius: 5px;
-	border-radius: 5px; 
 	margin-left: auto;
     margin-right: auto;
     width: 60%;
@@ -89,10 +87,18 @@ input[type=submit].searchresultbutton {
     z-index: 1;
 }
 
-input[type=submit].addsongbutton {
-	font-size: 14px;
+/*buttons that represent selected songs*/
+.searchsongbutton {
+	color: #000;
+	font-size: 12px;
+	border:0 none;
+	cursor:pointer;
+	margin-left: auto;
+    margin-right: auto;
+    width: 75px;
+    background: #fff; 
+    z-index: 1;
 }
-
 
 
 
