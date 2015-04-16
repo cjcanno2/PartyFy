@@ -14,6 +14,16 @@ class Song:
     def setTitle(self, newtitle):
     	self.title = newtitle
 
+    def getArtist(self):
+        return self.artist
+    def setArtist(self, newartist):
+        self.artist = newartist
+
+    def getUri(self):
+        return self.uri
+    def setUri(self, newUri):
+        self.uri = newUri
+
     def getId(self):
         return self.id
     def setId(self, newid):

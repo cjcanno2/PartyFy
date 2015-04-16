@@ -52,6 +52,8 @@ h2 {
 
 }
 
+
+
 button  {
 	color: #fff;
 	font-size: 20px;
@@ -65,9 +67,28 @@ button  {
     width: 80%;
 	height: 60px; 
     padding: 0.8em; 
-    background: #79ad02; 
+    background: #79ad02;
+    z-index: 0;
+ 
 
 }
+
+input[type=submit].searchresultbutton {
+	color: #000;
+	font-size: 16px;
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; 
+	margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+	height: 60px; 
+    padding: 0.8em; 
+    background: #fff; 
+    z-index: 1;
+}
+
 input[type=submit].addsongbutton {
 	font-size: 14px;
 }
