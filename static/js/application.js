@@ -44,11 +44,15 @@ function get_songlist() {
             //console.log (JSON.stringify(key) + ":" + JSON.stringify(value.songname));
             //song_string = song_string + '<p>' + JSON.stringify(value.songname) + '</p>';
 
+            //slice off starting and ending " characters
+            songname = JSON.stringify(value.songname).substring(1).slice(0, -1);
+            artistname = JSON.stringify(value.artistname).substring(1).slice(0, -1);
+            score = JSON.stringify(value.score).substring(1).slice(0, -1);
+
             //build HTML string of button for songs in list
             song_string += "<form action=\".\" method=\"POST\"> \n" ;
             song_string += "<button class=\"songbutton\" type=\"submit\" name=\"my-form\" value=" + JSON.stringify(value.idnum) + ">";
-            song_string += JSON.stringify(value.songname).replace("\"", "").replace("\"", "") + " - " + JSON.stringify(value.artistname).replace("\"", "").replace("\"", "")
-            song_string += " - " + JSON.stringify(value.score).replace("\"", "").replace("\"", "") + "</button> \n";
+            song_string += songname + " - " + artistname + " - " + score + "</button> \n";
             song_string += "</form>";
         });
          
