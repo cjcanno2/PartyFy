@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+
 <html lang="en">
   <head>
     <link rel="stylesheet" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
@@ -34,6 +37,8 @@
         </div>
         {% endfor %}
       </div>
+
+      <div><button type="button" class = "playbutton">Start playing!</button></div>
 
 
       <div class="songlist">

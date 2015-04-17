@@ -2,17 +2,33 @@
 
 class Song: 
 
-    def __init__(self, idnum, title, artist, uri):
+    def __init__(self, idnum, title, artist, length, uri):
     	self.title = title
     	self.score = 1
         self.artist = artist
         self.uri = uri
         self.id = idnum
+        self.length = length
 
     def getTitle(self):
     	return self.title
     def setTitle(self, newtitle):
     	self.title = newtitle
+
+    def getArtist(self):
+        return self.artist
+    def setArtist(self, newartist):
+        self.artist = newartist
+
+    def getLength(self):
+        return self.length
+    def setLength(self, length):
+        self.length = length
+
+    def getUri(self):
+        return self.uri
+    def setUri(self, newUri):
+        self.uri = newUri
 
     def getId(self):
         return self.id
@@ -48,8 +64,14 @@ class SongList:
     def getList(self):
         return self.list
 
+    def getLength(self):
+        return len(self.list)
+
     def getSongAt(self, index):
         return self.list[index]
+
+    def getAndRemoveSongAt(self, index):
+        return self.list.pop(index)
 
     def add(self, song):
         self.list.append(song)

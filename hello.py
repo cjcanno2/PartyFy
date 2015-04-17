@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for, copy_current_request_context, request, jsonify, Response, json
+from flask import Flask, render_template, url_for, copy_current_request_context, request, jsonify, Response, json, redirect
 import requests
 from song import Song, SongList
 import Queue
 import spotipy
+import spotipy.util as util
 
 spotify = spotipy.Spotify()
 
@@ -12,12 +13,56 @@ songList = SongList()
 
 trackResults = []
 
+username = "1263203807"
+
+clientId = "41ca80c15e3943a9b191dc9d4d279608"
+
+clientSecret = "15705cd588f54f1fa407e238fb63cbdf"
+
+scope = "playlist-modify-private"
+
+playlistName = "partyfy"
+
+playlist = ""
+
 #temporary solution to create unique IDs
 currentid = 0
 
+
+redirect_uri = "http://localhost:5000/login"
+
+sp_oauth = spotipy.oauth2.SpotifyOAuth(clientId, clientSecret, redirect_uri, 
+	scope=scope, cache_path=".cache-" + username)
+
 @app.route('/')
 def my_form():
+
+	token = sp_oauth.get_cached_token()
+
+	if not token:
+		return redirect(sp_oauth.get_authorize_url())
+	
 	return render_template("index.html", songlist = songList.getList())
+
+	
+
+
+
+@app.route('/login')
+def login_success():
+	url = request.url
+	code = sp_oauth.parse_response_code(url)
+	token = sp_oauth.get_access_token(code)
+
+	global spotify
+	spotify = spotipy.Spotify(token['access_token'])
+
+	#newPlaylist = spotify.user_playlist_create(spotify.me()["id"], playlistName, public = False)
+	#global playlist
+	#playlist = newPlaylist
+	
+	return render_template("index.html", songlist = songList.getList(), searchlist = [])
+
 
 #Takes input from template and adds it to the list
 @app.route('/', methods=['POST'])
@@ -61,7 +106,7 @@ def add_song():
 	trackresults = []
 
 	#add song to queue, sort it accordingly
-	songList.add(Song(currentid, currSong['name'], currSong['artists'][0]['name'], currSong['uri']))
+	songList.add(Song(currentid, currSong['name'], currSong['artists'][0]['name'], currSong["duration_ms"], currSong['uri']))
 	songList.sortList()
 
 	#return the JSON of the track uri (JS does nothing with it at the moment, just need to return something)
@@ -74,7 +119,24 @@ def get_songlist():
 	jsonlist = songList.toJSON()
 	return Response(json.dumps(jsonlist),  mimetype='application/json')
 
+
+
+@app.route('/_play_songs')
+def play_songs():
+
+	if(songList.getLength() == 0):
+		return jsonify(url = "none")
+
+	song = songList.getAndRemoveSongAt(0)
+	#spotify.user_playlist_add_tracks(spotify.me()["id"], playlist["id"], [song.getUri()])
+	url = song.getUri()
+	index = url.find("track:") + 6
+	url = url[index:]
+	url = "https://play.spotify.com/track/" + url
+	return jsonify(url = url, length = song.getLength())
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', threaded=True)
+    app.run(debug=True, threaded=True)
 
 

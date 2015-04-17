@@ -17,7 +17,7 @@ $(function() {
 $(function() { 
     $('.searchresultbutton').bind('click', function() {
         //TODO: change IP to something general
-        $.getJSON("http://10.0.0.8:5000/_add_song", {
+        $.getJSON("_add_song", {
             songuri: this.id
         }, function(data) {
             //clear search results in gui
@@ -59,6 +59,60 @@ function get_songlist() {
     });
 }
 setInterval('get_songlist()', 2000);
+
+function play_song() {
+    
+        
+    var def = $.Deferred();
+
+    (function loop() {
+
+        console.log("inside while loop");
+
+        $.getJSON("_play_songs", 
+            function (data) {
+
+                console.log(data["url"]);
+                console.log(data["length"]);
+
+
+                if(String(data["url"]) === "none"){
+                    def.resolve();
+                }
+                
+                else{
+                    songWindow = window.open(data["url"], '_blank');
+                    get_songlist();
+
+                    window.setTimeout(function(){
+                        songWindow.close();
+                        def.notify();
+                        loop();
+                    }, data["length"] + 10000);
+                }
+
+            });
+    })();
+
+
+    return def.promise();        
+    
+}
+
+
+$(function() {
+
+    $('.playbutton').bind('click', function() {
+
+        play_song().progress(function() {
+
+        }).done(function() {
+
+        });
+
+    });
+
+});
 
 
 
